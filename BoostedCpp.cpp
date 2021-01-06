@@ -1,25 +1,20 @@
-// BoostedCpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/* 
+    BoostedCpp.cpp : This file contains the 'main' function. 
+    - Will contain a mix of different libraries which will/will not include Boost.
+*/
+#include "multithread.h"
+#include <thread>
 
-#include <iostream>
-#include <boost/asio.hpp>
-#include <iostream>
+using namespace std; 
+using namespace multithread;
 
-using namespace std;
 
-int main()
-{
-    boost::asio::io_context io;
-    boost::asio::steady_timer timer = boost::asio::steady_timer(io, boost::asio::chrono::seconds(1));
+int main() {
     
-    cout << "Start" << endl;
-    
-    timer.wait();
-    io.run();
-
-    cout << "Stop" << endl;
-
-    system("Pause");
+    for (int i = 0; i < 5; i++) {
+        thread th(multithread::exe_thread, i);
+        th.join();
+    }
 
     return 0;
 }

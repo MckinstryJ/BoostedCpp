@@ -115,6 +115,14 @@ Branching allows the program to perform an abnormal behavior. They include the f
   <li>return - causes the function to go to the previous function that called it</li>
 </ul>
 
+### Multithreading
+The multithreading namespace I create was focusing on how to get it set up within visual studio.
+For the most part, its about creating individual threads with no shared memory.
+
+Current tutorial link: https://youtu.be/IdwJdJw65tU?t=439
+
+This tutorial will get into creating a pool of threads that have a shared memeory space.
+
 ### Pipelining
 ...
 

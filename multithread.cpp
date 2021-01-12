@@ -26,6 +26,9 @@
 
 using namespace std;
 
+/*
+    MULTI THREADING EXAMPLE WITH TRANSACTIONS
+*/
 // Global varaibles for threads
 double acct_balance = 100;
 mutex acct_lock;
@@ -76,4 +79,51 @@ void multithread::exe_thread(int id) {
     nowTime = chrono::system_clock::now();
     sleepTime = chrono::system_clock::to_time_t(nowTime);
     cout << "Thread: " << id << " Awake Time: " << ctime(&sleepTime) << endl;
+}
+
+/*
+    MULTITHREADING EXAMPLE WITH FINDING PRIMES
+*/
+mutex vectLock;
+vector<unsigned int> primeVect;
+
+// Function to actually find primes
+void multithread::find_primes(unsigned int start, unsigned int end) {
+    for (unsigned int x = start; x <= end; x += 2) {
+        for (unsigned int y = 2; y < x; y++) {
+            if (x % y == 0) {
+                break;
+            }
+            else if (y + 1 == x) {
+                vectLock.lock();
+                primeVect.push_back(x);
+                vectLock.unlock();
+            }
+        }
+    }
+}
+
+// Similar to exe_threads above
+void multithread::find_primes_with_threads(unsigned int start, unsigned int end, unsigned int numThreads) {
+    vector<thread> threadVect;
+    unsigned int threadSpread = end / numThreads;
+    unsigned int newEnd = start + threadSpread - 1;
+
+    int startTime = clock();
+    for (unsigned int x = 0; x < numThreads; x++) {
+        threadVect.emplace_back(multithread::find_primes, start, newEnd);
+        start += threadSpread;
+        newEnd += threadSpread;
+    }
+
+    for (auto& t : threadVect) {
+        t.join();
+    }
+    int endTime = clock();
+    
+    for (auto i : primeVect) {
+        cout << i << "\n";
+    }
+
+    cout << "Exe Time: " << (endTime - startTime) / double(CLOCKS_PER_SEC);
 }

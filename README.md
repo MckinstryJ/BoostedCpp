@@ -123,8 +123,11 @@ The following topics were covered:
 <ol>
 	<li>Threads with isolated memory</li>
 	<li>Threads with global variables (not a big difference)</li>
-	<li>...</li>
+	<li>Comparison between finding primes sequentially vs in parallel</li>
 </ol>
+
+The key point to this topic is to make sure to use mutex.lock feature to ensure threads do not compete for the same shared variable. Otherwise, 
+multithreading appers to be easy to use (at least in comparison to before).
 
 ### Pipelining
 ...
